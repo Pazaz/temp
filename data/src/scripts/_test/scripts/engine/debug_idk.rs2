@@ -1,0 +1,7 @@
+[debugproc,idk](idkit $kit, int $color)
+if ($kit = null) {
+    return;
+}
+
+setidkit($kit, $color);
+buildappearance(worn);

@@ -12,6 +12,7 @@ import { Position } from '#lostcity/entity/Position.js';
 import Player from '#lostcity/entity/Player.js';
 
 import Environment from '#lostcity/util/Environment.js';
+import IdkType from '#lostcity/cache/IdkType.js';
 
 const ActivePlayer = [ScriptPointer.ActivePlayer, ScriptPointer.ActivePlayer2];
 const ProtectedActivePlayer = [ScriptPointer.ProtectedActivePlayer, ScriptPointer.ProtectedActivePlayer2];
@@ -810,7 +811,43 @@ const PlayerOps: CommandHandlers = {
         const energyClamp = Math.min(Math.max(player.runenergy + amount, 0), 10000);
         player.runenergy = energyClamp;
         player.updateRunEnergy(energyClamp);
-    }
+    },
+
+    [ScriptOpcode.SETIDKIT]: (state) => {
+        const [idkit, color] = state.popInts(2);
+
+        const idk = IdkType.get(idkit);
+
+        let slot = idk.type;
+        if (state.activePlayer.gender === 1) {
+            slot -= 7;
+        }
+        state.activePlayer.body[slot] = idkit;
+
+        // 0 - hair
+        // 1 - torso
+        // 2 - legs
+        // 3 - boots
+        // 4 - jaw
+        let colorSlot = -1;
+        if (idk.type === 0) {
+            colorSlot = 0;
+        } else if (idk.type === 1) {
+            colorSlot = 4;
+        } else if (idk.type === 2 || idk.type === 3) {
+            colorSlot = 1;
+        } else if (idk.type === 4) {
+            /* no-op (no hand recoloring) */
+        } else if (idk.type === 5) {
+            colorSlot = 2;
+        } else if (idk.type === 6) {
+            colorSlot = 3;
+        }
+
+        if (colorSlot !== -1) {
+            state.activePlayer.colors[colorSlot] = color;
+        }
+    },
 };
 
 /**

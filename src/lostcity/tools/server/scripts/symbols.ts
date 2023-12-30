@@ -198,6 +198,13 @@ for (let i = 0; i < mesanims.length; i++) {
 }
 fs.writeFileSync('data/symbols/mesanim.tsv', mesanimSymbols);
 
+let idkSymbols = '';
+const idks = loadPack('data/pack/idk.pack');
+for (let i = 0; i < idks.length; i++) {
+    idkSymbols += `${i}\t${idks[i]}\n`;
+}
+fs.writeFileSync('data/symbols/idk.tsv', idkSymbols);
+
 let synthSymbols = '';
 const synths = loadPack('data/pack/sound.pack');
 for (let i = 0; i < synths.length; i++) {

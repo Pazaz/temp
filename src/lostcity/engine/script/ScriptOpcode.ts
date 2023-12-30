@@ -174,6 +174,7 @@ enum ScriptOpcode {
     UID, // official
     WEAKQUEUE, // official
     IF_OPENMAINOVERLAY,
+    SETIDKIT,
 
     // Npc ops (2500-2999)
     NPC_ADD = 2500, // official

@@ -1,22 +1,273 @@
+// todo: original dialogues
+// todo: options to retrieve scythe/bunny ears
+
 [opnpc1,thessalia]
-// TODO: options to retrieve scythe/bunny ears
 ~chatnpc(happy, "Do you want to buy any fine clothes?");
-def_int $option = ~p_choice2("What have you got?", 1, "No, thank you.", 2);
-if($option = 1) {
-    ~chatplayer(quiz, "What have you got?"); 
-    ~chatnpc(happy, "Well, I have a number of fine pieces of clothing on sale or, if you prefer, I can offer you an exclusive, total- clothing makeover?");
-    @multi3("Tell me more about this makeover.", thessalia_makeover, "I'd just like to buy some clothes.", thessalia_buy, "No, thank you.", thessalia_no);
-} else if($option = 2) {
-    @thessalia_no;
-}
+@multi2("What have you got?", thessalia_b1_s1, "No, thank you.", thessalia_b1_s2);
 
-[label,thessalia_buy]
-~chatplayer(neutral, "I'd just like to buy some clothes.");
-~openshop_activenpc;
+[label,thessalia_b1_s1]
+~chatplayer(quiz, "What have you got?"); 
+~chatnpc(happy, "Well, I have a number of fine pieces of clothing on sale or, if you prefer, I can offer you an exclusive, total-clothing makeover?");
+@multi3("Tell me more about this makeover.", thessalia_b2_s1, "I'd just like to buy some clothes.", thessalia_b2_s2, "No, thank you.", thessalia_b1_s2);
 
-[label,thessalia_no]
+[label,thessalia_b1_s2]
 ~chatplayer(neutral, "No, thank you.");
 ~chatnpc(happy, "Well, please return if you change your mind.");
 
-[label,thessalia_makeover]
-// TODO: implement
+[label,thessalia_b2_s1]
+~chatplayer(neutral, "Tell me more about this makeover.");
+~chatnpc(happy, "Certainly! ... Breaking the fourth wall for a moment to tell you that the developer hasn't researched this yet lol");
+@multi4("I'd like to change my top please.", thessalia_b3_s1, "I'd like to change my legwear please.", thessalia_b3_s2, "I'd just like to buy some clothes.", thessalia_b2_s2, "No, thank you.", thessalia_b1_s2);
+
+[label,thessalia_b3_s1]
+%option1 = 0;
+%option2 = 0;
+%option3 = 0;
+
+if (gender = ^gender_male) {
+    if_openmainmodal(thessalia_makeover_man_torso);
+} else {
+    @not_written_yet;
+    // if_openmainmodal(thessalia_makeover_woman_torso);
+}
+
+[label,thessalia_b3_s2]
+%option1 = 0;
+%option2 = 0;
+%option3 = 0;
+
+if (gender = ^gender_male) {
+    if_openmainmodal(thessalia_makeover_man_legs);
+} else {
+    @not_written_yet;
+    // if_openmainmodal(thessalia_makeover_woman_legs);
+}
+
+[label,thessalia_b2_s2]
+~chatplayer(neutral, "I'd just like to buy some clothes.");
+~openshop_activenpc;
+
+// ----
+
+[if_button,thessalia_makeover_man_torso:plain]
+%option1 = 1;
+
+[if_button,thessalia_makeover_man_torso:light_buttons]
+%option1 = 2;
+
+[if_button,thessalia_makeover_man_torso:jacket]
+%option1 = 3;
+
+[if_button,thessalia_makeover_man_torso:dark_buttons]
+%option1 = 4;
+
+[if_button,thessalia_makeover_man_torso:stitching]
+%option1 = 5;
+
+[if_button,thessalia_makeover_man_torso:shirt]
+%option1 = 6;
+
+[if_button,thessalia_makeover_man_torso:two_toned]
+%option1 = 7;
+
+[if_button,thessalia_makeover_man_torso:regular]
+%option2 = 1;
+
+[if_button,thessalia_makeover_man_torso:musclebound]
+%option2 = 2;
+
+[if_button,thessalia_makeover_man_torso:loose_sleeved]
+%option2 = 3;
+
+[if_button,thessalia_makeover_man_torso:large_cuffed]
+%option2 = 4;
+
+[if_button,thessalia_makeover_man_torso:thin_sleeved]
+%option2 = 5;
+
+[if_button,thessalia_makeover_man_torso:shoulder_pads]
+%option2 = 6;
+
+[if_button,thessalia_makeover_man_torso:khaki]
+%option3 = 1;
+
+[if_button,thessalia_makeover_man_torso:black]
+%option3 = 2;
+
+[if_button,thessalia_makeover_man_torso:crimson]
+%option3 = 3;
+
+[if_button,thessalia_makeover_man_torso:navy]
+%option3 = 4;
+
+[if_button,thessalia_makeover_man_torso:straw]
+%option3 = 5;
+
+[if_button,thessalia_makeover_man_torso:white]
+%option3 = 6;
+
+[if_button,thessalia_makeover_man_torso:red]
+%option3 = 7;
+
+[if_button,thessalia_makeover_man_torso:blue]
+%option3 = 8;
+
+[if_button,thessalia_makeover_man_torso:green]
+%option3 = 9;
+
+[if_button,thessalia_makeover_man_torso:yellow]
+%option3 = 10;
+
+[if_button,thessalia_makeover_man_torso:purple]
+%option3 = 11;
+
+[if_button,thessalia_makeover_man_torso:orange]
+%option3 = 12;
+
+[if_button,thessalia_makeover_man_torso:rose]
+%option3 = 13;
+
+[if_button,thessalia_makeover_man_torso:lime]
+%option3 = 14;
+
+[if_button,thessalia_makeover_man_torso:cyan]
+%option3 = 15;
+
+[if_button,thessalia_makeover_man_torso:emerald]
+%option3 = 16;
+
+[if_button,thessalia_makeover_man_torso:confirm]
+if (%option1 = 0 | %option2 = 0 | %option3 = 0) {
+    return;
+}
+
+if_close;
+
+if (inv_total(inv, coins) < 500) {
+    mes("You do not have enough money.");
+    return;
+}
+
+def_int $color = calc(%option3 - 1);
+
+if (%option1 = 1) {
+    setidkit(man_torso_plain, $color);
+} else if (%option1 = 2) {
+    setidkit(man_torso_light_buttons, $color);
+} else if (%option1 = 3) {
+    setidkit(man_torso_jacket, $color);
+} else if (%option1 = 4) {
+    setidkit(man_torso_dark_buttons, $color);
+} else if (%option1 = 5) {
+    setidkit(man_torso_stitching, $color);
+} else if (%option1 = 6) {
+    setidkit(man_torso_shirt, $color);
+} else if (%option1 = 7) {
+    setidkit(man_torso_two_toned, $color);
+}
+
+if (%option2 = 1) {
+    setidkit(man_arms_regular, $color);
+} else if (%option2 = 2) {
+    setidkit(man_arms_musclebound, $color);
+} else if (%option2 = 3) {
+    setidkit(man_arms_loose_sleeved, $color);
+} else if (%option2 = 4) {
+    setidkit(man_arms_large_cuffed, $color);
+} else if (%option2 = 5) {
+    setidkit(man_arms_thin_sleeved, $color);
+} else if (%option2 = 6) {
+    setidkit(man_arms_shoulder_pads, $color);
+}
+
+buildappearance(worn);
+inv_del(inv, coins, 500);
+
+// ----
+
+[if_button,thessalia_makeover_man_legs:plain]
+%option1 = 1;
+
+[if_button,thessalia_makeover_man_legs:shorts]
+%option1 = 2;
+
+[if_button,thessalia_makeover_man_legs:flares]
+%option1 = 3;
+
+[if_button,thessalia_makeover_man_legs:turn_ups]
+%option1 = 4;
+
+[if_button,thessalia_makeover_man_legs:khaki]
+%option3 = 2;
+
+[if_button,thessalia_makeover_man_legs:black]
+%option3 = 3;
+
+[if_button,thessalia_makeover_man_legs:crimson]
+%option3 = 4;
+
+[if_button,thessalia_makeover_man_legs:navy]
+%option3 = 5;
+
+[if_button,thessalia_makeover_man_legs:straw]
+%option3 = 6;
+
+[if_button,thessalia_makeover_man_legs:white]
+%option3 = 7;
+
+[if_button,thessalia_makeover_man_legs:red]
+%option3 = 8;
+
+[if_button,thessalia_makeover_man_legs:blue]
+%option3 = 9;
+
+[if_button,thessalia_makeover_man_legs:green]
+%option3 = 10;
+
+[if_button,thessalia_makeover_man_legs:yellow]
+%option3 = 11;
+
+[if_button,thessalia_makeover_man_legs:purple]
+%option3 = 12;
+
+[if_button,thessalia_makeover_man_legs:orange]
+%option3 = 13;
+
+[if_button,thessalia_makeover_man_legs:rose]
+%option3 = 14;
+
+[if_button,thessalia_makeover_man_legs:lime]
+%option3 = 15;
+
+[if_button,thessalia_makeover_man_legs:cyan]
+%option3 = 16;
+
+[if_button,thessalia_makeover_man_legs:emerald]
+%option3 = 1;
+
+[if_button,thessalia_makeover_man_legs:confirm]
+if (%option1 = 0 | %option3 = 0) {
+    return;
+}
+
+if_close;
+
+if (inv_total(inv, coins) < 500) {
+    mes("You do not have enough money.");
+    return;
+}
+
+def_int $color = calc(%option3 - 1);
+
+if (%option1 = 1) {
+    setidkit(man_legs_plain, $color);
+} else if (%option1 = 2) {
+    setidkit(man_legs_shorts, $color);
+} else if (%option1 = 3) {
+    setidkit(man_legs_flares, $color);
+} else if (%option1 = 4) {
+    setidkit(man_legs_turn_ups, $color);
+}
+
+buildappearance(worn);
+inv_del(inv, coins, 500);

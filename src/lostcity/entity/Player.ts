@@ -1758,6 +1758,7 @@ export default class Player extends PathingEntity {
                 DbTableType.load('data/pack/server');
                 DbRowType.load('data/pack/server');
                 HuntType.load('data/pack/server');
+                IdkType.load('data/pack/server');
 
                 const count = ScriptProvider.load('data/pack/server');
                 this.messageGame(`Reloaded ${count} scripts.`);
@@ -1925,6 +1926,11 @@ export default class Player extends PathingEntity {
                             const name = args.shift();
 
                             params.push(IfType.getId(name ?? ''));
+                        } break;
+                        case ScriptVarType.IDKIT: {
+                            const name = args.shift();
+
+                            params.push(IdkType.getId(name ?? ''));
                         } break;
                     }
                 }
@@ -3773,11 +3779,11 @@ export default class Player extends PathingEntity {
         this.netOut.push(out);
     }
 
-    ifOpenMainModalSideOverlay(top: number, side: number) {
+    ifOpenMainModalSideOverlay(main: number, side: number) {
         const out = new Packet();
         out.p1(ServerProt.IF_OPENMAINMODALSIDEOVERLAY);
 
-        out.p2(top);
+        out.p2(main);
         out.p2(side);
 
         this.netOut.push(out);
