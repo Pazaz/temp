@@ -5421,7 +5421,7 @@ name=Cannonballs
 desc=Big heavy metal balls.
 model=model_loc_822
 
-[loc_823]
+[dummy]
 name=Dummy
 desc=The easiest opponent I'll ever fight.
 model=model_loc_823
@@ -12642,7 +12642,7 @@ recol1d=0
 recol2s=24
 recol2d=4762
 
-[loc_2038]
+[dummy_ardougne]
 name=Dummy
 desc=I've met less intelligent conversationalists.
 model=model_loc_823

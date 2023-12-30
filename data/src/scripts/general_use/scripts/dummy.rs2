@@ -1,0 +1,37 @@
+[oploc2,dummy]
+anim(%com_attackanim, 0);
+sound_synth(%com_attacksound, 0, 0);
+
+mes("You hit the dummy.");
+p_delay(0);
+
+// no loc_anim in our version!
+
+if (stat_base(attack) > 7) {
+    // is this original dialogue? is the ardougne message more original?
+    mes("There is nothing more you can learn from hitting a dummy.");
+    return;
+}
+
+// since there's no loc_anim I wonder if this is more like the combat training area dummy, where xp is granted before the delay
+givexp(attack, 50);
+
+// 2023-12-30 osrs: https://media.itspazaz.com/2023/12/javaw_GJ2WgoHh2j.mp4 (note: no loc_anim! maybe this is original release code?)
+[oploc2,dummy_ardougne]
+// this action is a free 300 xp (50 xp * 6 hits) after completing biohazard
+/*if (%biohazard_progress ! ^biohazard_complete) {
+    return;
+}
+
+if (%biohazard_dummy > 6) {
+    mes("There's no more to learn from hitting this dummy.");
+    return;
+}*/
+
+anim(%com_attackanim, 0);
+sound_synth(%com_attacksound, 0, 0);
+
+mes("You hit the dummy.");
+givexp(attack, 500);
+
+p_delay(0); // didn't 100% confirm but I presume it's delayed?
